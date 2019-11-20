@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 import Login from './components/Login'
 import Register from './components/Register'
 import Links from './components/Links'
+import UserLinks from './components/UserLinks'
 
 const routes = [
     {
@@ -23,6 +24,14 @@ const routes = [
         path: '/',
         name: 'links',
         component: Links
+    },
+    {
+        path: '/my-links',
+        name: 'userLinks',
+        component: UserLinks,
+        meta: {
+            requiresAuth: true
+        }
     }
 ];
 

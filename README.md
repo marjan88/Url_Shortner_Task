@@ -8,13 +8,11 @@ In order to install and run the application, run the following commands:
 
 3. composer install
 
-4. npm install 
+4. php artisan jwt:secret // it will generate JTW secret key
 
-5. php artisan jwt:secret // it will generate JTW secret key
+5. php artisan migrate // it fill run the migrations
 
-6. php artisan migrate // it fill run the migrations
-
-7. php -S localhost:8000 -t public // run local server
+6. php -S localhost:8000 -t public // run local server
 
 The url shortner application is build in lumen (php micro framework from Laravel) and Vue js. Client and server a separated.
 In the storage folder is the POSTMAN collection. IN the home page, all public links are listed. In order to add new links the user needs to register first and login to the application. 

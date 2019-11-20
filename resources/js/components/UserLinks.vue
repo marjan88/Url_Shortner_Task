@@ -1,6 +1,19 @@
 <template>
     <div>
-        <h4>Links <span v-if="meta">({{ meta.total }})</span></h4>
+        <h4>My Links <span v-if="meta">({{ meta.total }})</span></h4>
+
+
+        <form class="form-inline" @submit.prevent="onSubmit" v-if="isLoggedIn">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="inputPassword2" placeholder="Link" v-model="url">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="private" value="0" v-model="privateUrl">
+                <label class="form-check-label" for="private">Private</label>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Add</button>
+        </form>
+
 
         <div v-if="links && links.length">
             <div class="input-group mb-3">
@@ -16,7 +29,7 @@
             <Link v-for="(link, index) in links" :link="link" :key="index"></Link>
         </div>
         <div v-else>
-            There are no links...
+            You have no links...
         </div>
     </div>
 </template>
@@ -35,18 +48,19 @@
             return {
                 order: 'DESC',
                 url: null,
-                privateUrl: 1
+                privateUrl: 0
             }
         },
         computed: {
             ...mapGetters({
                 links: 'getLinks',
-                meta: 'getMeta'
+                meta: 'getMeta',
+                isLoggedIn: 'isLoggedIn'
             })
         },
         methods: {
             ...mapActions({
-                fetchLinks: 'fetchLinks',
+                fetchLinks: 'fetchUserLinks',
                 addLink: 'addLink'
             }),
             getLinks() {

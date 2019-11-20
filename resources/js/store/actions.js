@@ -1,4 +1,4 @@
-import {LOGIN_API, REGISTER_API, LOGOUT_API, LINKS_API, SINGLE_LINK_API} from '../api/index'
+import {LOGIN_API, REGISTER_API, LOGOUT_API, LINKS_API, SINGLE_LINK_API, USER_LINKS_API} from '../api/index'
 
 export const login = ({commit, dispatch}, payload) => {
     return new Promise((resolve, reject) => {
@@ -75,7 +75,21 @@ export const logout = ({commit, dispatch}, payload) => {
     })
 }
 
+export const fetchUserLinks = ({commit, dispatch}, payload) => {
+    return new Promise((resolve, reject) => {
 
+        window.axios.get(USER_LINKS_API, payload)
+            .then(resp => {
+                let {data} = resp.data;
+                commit('SET_LINKS', data.data)
+                commit('SET_META', data)
+                resolve(resp)
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
+}
 
 export const fetchLinks = ({commit, dispatch}, payload) => {
     return new Promise((resolve, reject) => {

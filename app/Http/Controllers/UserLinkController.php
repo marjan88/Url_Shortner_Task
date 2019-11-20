@@ -17,7 +17,7 @@ class UserLinkController extends Controller {
      * @return void
      */
     public function __construct(LinkRepository $linkRepository) {
-        $this->linkRepository           = $linkRepository;
+        $this->linkRepository = $linkRepository;
         $this->middleware('auth');
     }
 
@@ -26,7 +26,8 @@ class UserLinkController extends Controller {
      * @return mixed
      */
     public function index(Request $request) {
-        $user = $request->user();
-        return $this->linkRepository->fetchByUserId($request, $user->id);
+        $user  = $request->user();
+        $links = $this->linkRepository->fetchByUserId($request, $user->id);
+        return response()->json(['data' => $links], 200);
     }
 }

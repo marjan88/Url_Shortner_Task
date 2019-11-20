@@ -19,6 +19,9 @@ In the storage folder is the POSTMAN collection. IN the home page, all public li
 After that he will be able to add and delete links, making the links public or private. Class for generating short urls is MathBasePattern. The class implements UrlPatternInterface class. 
 This aproach is opened for change. Developers only needs to create a new Pattern class that implements UrlPatternInterface and map it in the App\Providers\RepositoryServiceProvider
 
+
+User and Link repositories are mapped by their interface App\Providers\RepositoryServiceProvider. Eloquent or Doctrine could be used without to much code change.
+
 JSON Web Tokens are used to access restricted endpoints. After the login is successful, server return the token that will be saved in the browser storage and used in every request header.
 
 Links unique ID from the DB is converted from base-10 ID to a base-62 ID. base-62 character locations are shuffled from their standard arrangement.

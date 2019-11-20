@@ -2,31 +2,28 @@
     <div>
         <h4>Register</h4>
         <div v-if="error">{{ error }}</div>
+
         <form @submit.prevent="onSubmit">
-            <label for="name">Name</label>
-            <div>
-                <input id="name" type="text" v-model="name" required autofocus>
+            <div class="form-group">
+                <label for="email">Name</label>
+                <input type="text" v-model="name" class="form-control" id="name"  placeholder="Enter name">
             </div>
-
-            <label for="email">E-Mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" v-model="email" class="form-control" id="email" placeholder="Enter email">
             </div>
-
-            <label for="password">Password</label>
-            <div>
-                <input id="password" type="password" v-model="password" required>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
             </div>
-
-            <label for="password-confirm">Confirm Password</label>
-            <div>
-                <input id="password-confirm" type="password" v-model="password_confirmation" required>
+            <div class="form-group">
+                <label for="password">Password Confirmation</label>
+                <input type="password" v-model="password_confirmation" class="form-control" id="password_confirmation" placeholder="Password Confirmation">
             </div>
-
-            <div>
-                <button type="submit">Register</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+
     </div>
 </template>
 
@@ -57,11 +54,6 @@
                 }
                 this.register(data)
                     .then(() => this.$router.push('/login'))
-                    .catch((err) => {
-
-                        let {data} = err.response;
-                        this.error = data
-                    })
             }
         }
     }

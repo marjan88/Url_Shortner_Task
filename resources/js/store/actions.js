@@ -25,7 +25,7 @@ export const login = ({commit, dispatch}, payload) => {
                 commit('REMOVE_TOKEN')
                 commit('SET_NOTIFICATION', {
                     status: 'danger',
-                    message: data.message
+                    message: data
                 })
                 reject(err)
             })
@@ -46,6 +46,11 @@ export const register = ({commit, dispatch}, payload) => {
                 resolve(resp)
             })
             .catch(err => {
+                let data = err.response.data;
+                commit('SET_NOTIFICATION', {
+                    status: 'danger',
+                    message: data
+                })
                 reject(err)
             })
     })

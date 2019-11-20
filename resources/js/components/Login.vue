@@ -1,14 +1,17 @@
 <template>
     <div>
-        <form class="login" @submit.prevent="onSubmit">
-            <h1>Sign in</h1>
-            <label>Email</label>
-            <input required v-model="email" type="email" placeholder="Name"/>
-            <label>Password</label>
-            <input required v-model="password" type="password" placeholder="Password"/>
-            <hr/>
-            <button type="submit">Login</button>
+        <form @submit.prevent="onSubmit">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" v-model="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
     </div>
 </template>
 
@@ -34,7 +37,6 @@
                     email,
                     password
                 }).then(() => this.$router.push('/'))
-                    .catch(err => console.log(err))
             }
         }
     }

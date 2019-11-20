@@ -35,10 +35,12 @@ class CreateURLShortnerService extends AbstractService {
     public function handle() {
         $request = $this->getRequest();
         $url     = $request->get('url');
+        $private = $request->get('private', 0);
 
         $data = [
             'original_url' => $url,
-            'user_id'      => $request->user()->id
+            'user_id'      => $request->user()->id,
+            'private' => $private
         ];
 
         $link = $this->linkRepository->create($data);

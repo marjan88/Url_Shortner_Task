@@ -59,7 +59,7 @@ class AuthController extends Controller {
 
             $user = $this->registerUserService->setRequest($request)->handle();
             //return successful response
-            return response()->json(['data' => $user, 'message' => 'User Registered'], 201);
+            return response()->json(['data' => $user, 'message' => 'User Registered. You can login now'], 201);
 
         } catch (\Exception $e) {
             Log::error($e);
@@ -89,7 +89,8 @@ class AuthController extends Controller {
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => Auth::factory()->getTTL() * 60
+            'expires_in'   => Auth::factory()->getTTL() * 60,
+            'user' => Auth::user()
         ], 200);
     }
 }

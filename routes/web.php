@@ -11,6 +11,7 @@
 |
 */
 
+
 $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('register', 'AuthController@register');
@@ -24,11 +25,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         'uses'       => 'UserController@show'
     ]);
 
+    // LINKS
     $router->get('links', 'LinkController@index');
     $router->post('links', 'LinkController@store');
     $router->put('links/{link}', 'LinkController@update');
     $router->get('links/{link}', 'LinkController@show');
     $router->delete('links/{link}', 'LinkController@destroy');
 
+    // USER LINKS
+    $router->get('user/links', 'UserLinkController@index');
 
+});
+
+$router->get('/{route:.*}/', function ()  {
+    return view('app');
 });

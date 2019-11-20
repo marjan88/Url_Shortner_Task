@@ -31,11 +31,19 @@ abstract class EloquentAbstractRepository implements RepositoryInterface {
      */
     public function all(Request $request) {
         $paginate = $request->get('paginate', null);
+        $order = $request->get('order', null);
         $limit    = config('app.default_pagination');
-        if ($paginate) {
-           return $this->getModel()->paginate($limit);
+
+        $model = $this->getModel();
+
+        if($order) {
+            $model = $model->orderBy('created_at', $order);
         }
-        return $this->getModel()->get();
+
+        if ($paginate) {
+           return $model->paginate($limit);
+        }
+        return $model->get();
     }
 
     /**

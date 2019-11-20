@@ -27,7 +27,7 @@ class LinkController extends Controller {
     public function __construct(LinkRepository $linkRepository, CreateURLShortnerService $createURLShortnerService) {
         $this->createURLShortnerService = $createURLShortnerService;
         $this->linkRepository           = $linkRepository;
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'index']);
     }
 
     /**
@@ -35,7 +35,9 @@ class LinkController extends Controller {
      * @return mixed
      */
     public function index(Request $request) {
-        return $this->linkRepository->all($request);
+        $links =  $this->linkRepository->fetchPublicLinks($request);
+        return response()->json(['data' => $links], 200);
+
     }
 
     /**
@@ -65,7 +67,7 @@ class LinkController extends Controller {
         $this->validate($request, ['url' => 'required|url']);
 
         try {
-            $link = $this->linkRepository->updateByCode($request->only('url'), $code);
+            $link = $this->linkRepository->updateByCode($request->only(['url', 'private']), $code);
             return response()->json(['data' => $link, 'message' => 'Shortened link updated'], 200);
 
         } catch (\Exception $e) {

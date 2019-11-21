@@ -49,8 +49,6 @@
                 removeLink: 'removeLink'
             }),
             onClick(link) {
-                console.log(link)
-
                 this.showLink(link.code).then((res) => {
                     let { data } = res
                     location.href = data.data

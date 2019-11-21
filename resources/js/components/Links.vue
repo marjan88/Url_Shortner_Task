@@ -14,6 +14,7 @@
             </div>
 
             <Link v-for="(link, index) in links" :link="link" :key="index"></Link>
+            <pages v-if="meta" for="links" :pagination="meta" v-on:switchPage="changePage"></pages>
         </div>
         <div v-else>
             There are no links...
@@ -24,10 +25,11 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import Link from './Link'
+    import Pages from './Pages'
 
     export default {
         name: "Links",
-        components: {Link},
+        components: {Link, Pages},
         created() {
             this.getLinks();
         },
@@ -49,13 +51,18 @@
                 fetchLinks: 'fetchLinks',
                 addLink: 'addLink'
             }),
-            getLinks() {
+            getLinks(page) {
                 let data = {
                     params: {
                         order: this.order,
                         paginate: true
                     }
                 }
+
+                if(page) {
+                    data.params.page = page
+                }
+
                 this.fetchLinks(data);
             },
             onSubmit() {
@@ -64,6 +71,9 @@
                 this.addLink({url, private: privateUrl}).then((response) => {
                     this.url = null
                 })
+            },
+            changePage(page) {
+                this.getLinks(page)
             }
         }
     }

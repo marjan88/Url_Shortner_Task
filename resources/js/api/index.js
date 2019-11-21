@@ -11,3 +11,5 @@ export const LINKS_API = BASE_API_URL + 'links';
 export const SINGLE_LINK_API = (link) => BASE_API_URL + `links/${link}`;
 
 export const USER_LINKS_API = BASE_API_URL + 'user/links';
+
+export const PROFILE_API = BASE_API_URL + 'me';

@@ -61,7 +61,12 @@ class LinkRepository extends EloquentAbstractRepository implements \App\Reposito
     public function fetchByUserId(Request $request, int $userId) {
         $paginate = $request->get('paginate', null);
         $limit    = config('app.default_pagination');
+        $order = $request->get('order', null);
         $model    = $this->getModel()->where('user_id', $userId);
+
+        if($order) {
+            $model = $model->orderBy('created_at', $order);
+        }
 
         if ($paginate) {
             return $model->paginate($limit);

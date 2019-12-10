@@ -14,9 +14,17 @@ new Vue({
     created: function () {
         window.axios.interceptors.response.use(undefined, function (err) {
             return new Promise(function (resolve, reject) {
-                if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+
+                let {response, status} = err
+
+                if (status === 401 && err.config && !err.config.__isRetryRequest) {
                     store.dispatch('logout')
                 }
+
+                if(response.status === 401) {
+                    store.dispatch('logout')
+                }
+
                 throw err;
             });
         });

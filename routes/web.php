@@ -12,7 +12,7 @@
 */
 
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['prefix' => 'api', 'namespace' => 'Api'], function () use ($router) {
 
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
@@ -36,6 +36,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('user/links', 'UserLinkController@index');
 
 });
+
+$router->get('r/{link}', 'LinkController@show');
 
 $router->get('/{route:.*}/', function ()  {
     return view('app');

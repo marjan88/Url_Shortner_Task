@@ -12,6 +12,8 @@ namespace App\Repositories;
 use App\Exceptions\LinkNotFoundException;
 use App\Models\Link;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
 
 class LinkRepository extends EloquentAbstractRepository implements \App\Repositories\Contracts\LinkRepository {
 
@@ -100,6 +102,13 @@ class LinkRepository extends EloquentAbstractRepository implements \App\Reposito
         if (!$link) {
             throw new LinkNotFoundException();
         }
+
+        $user = Auth::user();
+
+        if($user->id !== $link->user_id) {
+            throw new UnauthorizedException('Not authorized to delete this link');
+        }
+
         return $link->delete();
     }
 

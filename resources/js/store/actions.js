@@ -64,22 +64,15 @@ export const register = ({commit, dispatch}, payload) => {
     })
 }
 
-export const logout = ({commit, dispatch}, payload) => {
+export const logout = ({commit}, payload) => {
     return new Promise((resolve, reject) => {
 
-        window.axios.post(LOGOUT_API, payload)
-            .then(resp => {
+        commit('REMOVE_TOKEN');
+        commit('SET_USER', null);
 
-                commit('REMOVE_TOKEN')
-                commit('SET_USER', null)
+        delete window.axios.defaults.headers.common['Authorization']
 
-                delete window.axios.defaults.headers.common['Authorization']
-
-                resolve(resp)
-            })
-            .catch(err => {
-                reject(err)
-            })
+        resolve();
     })
 }
 
@@ -164,6 +157,12 @@ export const removeLink = ({commit, dispatch}, payload) => {
                 resolve(resp)
             })
             .catch(err => {
+                let data = err.response.data;
+
+                commit('SET_NOTIFICATION', {
+                    status: 'danger',
+                    message: data
+                })
                 reject(err)
             })
     })

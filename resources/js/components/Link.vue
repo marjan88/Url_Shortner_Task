@@ -6,7 +6,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <a href="#" @click.prevent="onClick(link)">{{link.shortened_url}}</a><br/>
+                        <a :href="link.shortened_url" target="_blank">{{link.shortened_url}}</a><br/>
                         <small>{{link.original_url}}</small>
                     </td>
                     <td>Last requested: {{ link.last_used }}</td>

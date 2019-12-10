@@ -50,7 +50,7 @@
                     name: this.name,
                     email: this.email,
                     password: this.password,
-                    password_confirmation: this.password
+                    password_confirmation: this.password_confirmation
                 }
                 this.register(data)
                     .then(() => this.$router.push('/login'))

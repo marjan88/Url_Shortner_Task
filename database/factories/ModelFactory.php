@@ -11,9 +11,17 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'password' => app('hash')->make('secret'),
+    ];
+});
+
+$factory->define(App\Models\Link::class, function (Faker\Generator $faker) {
+    return [
+        'original_url' => $faker->url,
+        'user_id' => factory(App\Models\User::class),
     ];
 });

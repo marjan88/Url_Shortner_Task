@@ -1898,17 +1898,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     Notificaitons: _Notificaitons__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  created: function created() {
-    window.axios.interceptors.response.use(undefined, function (err) {
-      return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout);
-        }
-
-        throw err;
-      });
-    });
-  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     isLoggedIn: 'isLoggedIn'
   })),
@@ -2326,7 +2315,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: this.name,
         email: this.email,
         password: this.password,
-        password_confirmation: this.password
+        password_confirmation: this.password_confirmation
       };
       this.register(data).then(function () {
         return _this.$router.push('/login');
@@ -3038,15 +3027,7 @@ var render = function() {
             _c("td", [
               _c(
                 "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.onClick(_vm.link)
-                    }
-                  }
-                },
+                { attrs: { href: _vm.link.shortened_url, target: "_blank" } },
                 [_vm._v(_vm._s(_vm.link.shortened_url))]
               ),
               _c("br"),
@@ -19926,7 +19907,14 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   created: function created() {
     window.axios.interceptors.response.use(undefined, function (err) {
       return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+        var response = err.response,
+            status = err.status;
+
+        if (status === 401 && err.config && !err.config.__isRetryRequest) {
+          _store_index__WEBPACK_IMPORTED_MODULE_2__["store"].dispatch('logout');
+        }
+
+        if (response.status === 401) {
           _store_index__WEBPACK_IMPORTED_MODULE_2__["store"].dispatch('logout');
         }
 
@@ -20646,17 +20634,12 @@ var register = function register(_ref2, payload) {
   });
 };
 var logout = function logout(_ref3, payload) {
-  var commit = _ref3.commit,
-      dispatch = _ref3.dispatch;
+  var commit = _ref3.commit;
   return new Promise(function (resolve, reject) {
-    window.axios.post(_api_index__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_API"], payload).then(function (resp) {
-      commit('REMOVE_TOKEN');
-      commit('SET_USER', null);
-      delete window.axios.defaults.headers.common['Authorization'];
-      resolve(resp);
-    })["catch"](function (err) {
-      reject(err);
-    });
+    commit('REMOVE_TOKEN');
+    commit('SET_USER', null);
+    delete window.axios.defaults.headers.common['Authorization'];
+    resolve();
   });
 };
 var fetchUserLinks = function fetchUserLinks(_ref4, payload) {
@@ -20730,6 +20713,11 @@ var removeLink = function removeLink(_ref8, payload) {
       commit('REMOVE_LINK', payload);
       resolve(resp);
     })["catch"](function (err) {
+      var data = err.response.data;
+      commit('SET_NOTIFICATION', {
+        status: 'danger',
+        message: data
+      });
       reject(err);
     });
   });

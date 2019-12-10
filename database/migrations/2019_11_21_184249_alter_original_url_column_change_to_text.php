@@ -26,7 +26,7 @@ class AlterOriginalUrlColumnChangeToText extends Migration
     public function down()
     {
         Schema::table('links', function (Blueprint $table) {
-            //
+            $table->string('original_url')->change();
         });
     }
 }
